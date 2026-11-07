@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Ingestion Report</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #ffffff; --text: #1d1d1b; --muted: #66645e; --line: #dddbd4;
+    --accent: #2f5d9e; --loaded: #2e7d4f; --updated: #2f5d9e; --skipped: #8a6d1a; --rejected: #b03a2e;
+    --review-bg: #fff4e0; --chip: #efeee9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161614; --panel: #201f1c; --text: #ecebe6; --muted: #a3a097; --line: #3a3934;
+      --accent: #7ea6e0; --loaded: #6cc08f; --updated: #7ea6e0; --skipped: #d9b95c; --rejected: #ec7b6f;
+      --review-bg: #3a2f1a; --chip: #2c2b27;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 0; }
+  .muted { color: var(--muted); }
+  .picker { margin: 16px 0 24px; padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+  .picker label { font-weight: 600; margin-right: 8px; }
+  .error { color: var(--rejected); font-weight: 600; margin-top: 8px; }
+  .run { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 24px; overflow: hidden; }
+  .run-head { padding: 16px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; padding: 16px; }
+  .tile { border: 1px solid var(--line); border-radius: 6px; padding: 8px 12px; }
+  .tile b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+  .tile span { color: var(--muted); font-size: 13px; }
+  .tile.loaded b { color: var(--loaded); } .tile.updated b { color: var(--updated); }
+  .tile.skipped b { color: var(--skipped); } .tile.rejected b { color: var(--rejected); }
+  .meta { padding: 0 16px 12px; font-size: 13px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 12px 16px; border-top: 1px solid var(--line); align-items: center; }
+  .filters input[type=search] { min-width: 220px; flex: 1; }
+  input, select, button { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+  button { cursor: pointer; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-top: 1px solid var(--line); }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  tr.review { background: var(--review-bg); }
+  .outcome { font-weight: 600; text-transform: capitalize; }
+  .outcome.loaded { color: var(--loaded); } .outcome.updated { color: var(--updated); }
+  .outcome.skipped { color: var(--skipped); } .outcome.rejected { color: var(--rejected); }
+  ul.events { margin: 0; padding-left: 0; list-style: none; }
+  ul.events li { margin: 0 0 4px; }
+  .chip { display: inline-block; background: var(--chip); border-radius: 4px; padding: 0 6px; font-size: 12px; margin-right: 4px; }
+  .chip.conflict, .chip.review { background: var(--rejected); color: #fff; }
+  .chip.warning { background: var(--skipped); color: #fff; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 13px; overflow-wrap: anywhere; }
+  .more { padding: 12px 16px; border-top: 1px solid var(--line); }
+  .empty { padding: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Book Ingestion Report</h1>
+  <p class="muted">Shows every run recorded by <code>ingest.py</code>, newest first. Nothing is uploaded: the file is read only by this page in your browser.</p>
+
+  <div class="picker">
+    <label for="file">Choose ingestion-log.json:</label>
+    <input type="file" id="file" accept=".json,application/json">
+    <div id="status" class="muted"></div>
+  </div>
+
+  <div id="runs"></div>
+</main>
+
+<script>
+"use strict";
+const PAGE = 100;
+const OUTCOMES = ["loaded", "updated", "skipped", "rejected"];
+
+function el(tag, attrs, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (k === "class") node.className = v;
+    else if (k.startsWith("on")) node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v);
+  }
+  for (const c of children) if (c !== null && c !== undefined) node.append(c instanceof Node ? c : String(c));
+  return node;
+}
+
+const show = v => (v === null ? "NULL" : v === undefined ? "" : String(v));
+
+document.getElementById("file").addEventListener("change", ev => {
+  const file = ev.target.files[0];
+  const status = document.getElementById("status");
+  const out = document.getElementById("runs");
+  out.replaceChildren();
+  status.className = "muted";
+  if (!file) return;
+  status.textContent = "Reading " + file.name + "…";
+  const reader = new FileReader();
+  reader.onload = () => {
+    let runs;
+    try {
+      runs = JSON.parse(reader.result);
+      if (!Array.isArray(runs)) throw new Error("the file is not a list of runs");
+    } catch (e) {
+      status.className = "error";
+      status.textContent = "Could not read " + file.name + ": " + e.message;
+      return;
+    }
+    status.textContent = file.name + ": " + runs.length + " run" + (runs.length === 1 ? "" : "s") + ", newest first.";
+    const ordered = runs.map((r, i) => [r, i]).sort((a, b) =>
+      (b[0].run_number ?? b[1]) - (a[0].run_number ?? a[1]) || b[1] - a[1]).map(x => x[0]);
+    for (const run of ordered) out.append(renderRun(run));
+  };
+  reader.onerror = () => { status.className = "error"; status.textContent = "Could not read the file."; };
+  reader.readAsText(file);
+});
+
+function renderRun(run) {
+  const counts = run.counts || {};
+  const sum = OUTCOMES.reduce((t, k) => t + (counts[k] || 0), 0);
+  const box = el("section", { class: "run" },
+    el("div", { class: "run-head" },
+      el("h2", {}, "Run " + show(run.run_number) + " — " + show(run.source_file)),
+      el("span", { class: "muted" }, show(run.timestamp)),
+      el("span", { class: run.status === "failed" ? "error" : "muted" }, "Status: " + show(run.status))));
+
+  if (run.status === "failed") {
+    box.append(el("div", { class: "empty error" }, show(run.error)));
+    return box;
+  }
+
+  box.append(el("div", { class: "tiles" },
+    tile("rows read", run.rows_read, ""),
+    ...OUTCOMES.map(k => tile(k, counts[k] || 0, k)),
+    tile("need review", run.rows_needing_review || 0, "rejected")));
+
+  const totals = Object.entries(run.event_totals || {}).map(([k, v]) => k + ": " + v).join(" · ");
+  box.append(el("div", { class: "meta muted" },
+    "Counts add up: " + (sum === run.rows_read ? "yes" : "NO") + " (" + sum + " of " + show(run.rows_read) + ")",
+    totals ? " · Events — " + totals : "",
+    el("br"), "File: ", el("code", {}, show(run.source_path)), " · Database: ", el("code", {}, show(run.database))));
+
+  const rows = run.rows || [];
+  const search = el("input", { type: "search", placeholder: "Search line, book_id, title, message…" });
+  const outcome = el("select", {}, el("option", { value: "" }, "All outcomes"),
+    ...OUTCOMES.map(k => el("option", { value: k }, k)));
+  const reviewOnly = el("input", { type: "checkbox" });
+  const countLabel = el("span", { class: "muted" });
+  const body = el("tbody");
+  const more = el("button", {}, "Show more");
+  const moreWrap = el("div", { class: "more" }, more);
+  let filtered = rows, shown = 0;
+
+  function haystack(r) {
+    return [r.line, r.book_id, r.title, r.outcome, r.reason,
+      ...(r.events || []).flatMap(e => [e.type, e.rule, e.field, e.message, e.original, e.result,
+        e.incoming, e.stored, e.old, e.new])].join(" ").toLowerCase();
+  }
+  function apply() {
+    const q = search.value.trim().toLowerCase();
+    filtered = rows.filter(r => (!outcome.value || r.outcome === outcome.value) &&
+      (!reviewOnly.checked || r.needs_review) && (!q || haystack(r).includes(q)));
+    body.replaceChildren(); shown = 0; page();
+  }
+  function page() {
+    for (const r of filtered.slice(shown, shown + PAGE)) body.append(renderRow(r));
+    shown = Math.min(shown + PAGE, filtered.length);
+    countLabel.textContent = "Showing " + shown + " of " + filtered.length + " reported rows";
+    moreWrap.style.display = shown < filtered.length ? "" : "none";
+  }
+  search.addEventListener("input", apply);
+  outcome.addEventListener("change", apply);
+  reviewOnly.addEventListener("change", apply);
+  more.addEventListener("click", page);
+
+  box.append(el("div", { class: "filters" }, search, outcome,
+    el("label", {}, reviewOnly, " Needs review only"), countLabel));
+  if (!rows.length) {
+    box.append(el("div", { class: "empty muted" }, "No row-level issues were reported for this run."));
+    return box;
+  }
+  box.append(el("div", { class: "table-wrap" }, el("table", {},
+    el("thead", {}, el("tr", {}, ...["Line", "book_id", "Title", "Outcome", "Reason", "Details"].map(h => el("th", {}, h)))),
+    body)), moreWrap);
+  apply();
+  return box;
+}
+
+function tile(label, value, cls) {
+  return el("div", { class: "tile " + cls }, el("b", {}, show(value)), el("span", {}, label));
+}
+
+function renderRow(r) {
+  const events = el("ul", { class: "events" }, ...(r.events || []).map(e => {
+    const parts = [el("span", { class: "chip " + e.type }, e.type), el("span", { class: "chip" }, show(e.rule))];
+    if (e.field) parts.push(el("code", {}, e.field), ": ");
+    parts.push(show(e.message));
+    if ("old" in e || "new" in e) parts.push(" — ", el("code", {}, show(e.old)), " → ", el("code", {}, show(e.new)));
+    else if ("incoming" in e || "stored" in e)
+      parts.push(" — incoming ", el("code", {}, show(e.incoming)), ", stored ", el("code", {}, show(e.stored)));
+    else if (e.original !== undefined || e.result !== undefined)
+      parts.push(" — ", el("code", {}, show(e.original)), e.result !== undefined ? " → " : "", e.result !== undefined ? el("code", {}, show(e.result)) : null);
+    return el("li", {}, ...parts);
+  }));
+  const details = el("td", {}, events);
+  if (r.original_values) {
+    const d = el("details", {}, el("summary", {}, "Original values"),
+      el("code", {}, Object.entries(r.original_values).map(([k, v]) => k + "=" + show(v)).join(" | ")));
+    details.append(d);
+  }
+  return el("tr", { class: r.needs_review ? "review" : "" },
+    el("td", {}, show(r.line)), el("td", {}, show(r.book_id)), el("td", {}, show(r.title)),
+    el("td", { class: "outcome " + r.outcome }, show(r.outcome)), el("td", {}, show(r.reason)), details);
+}
+</script>
+</body>
+</html>

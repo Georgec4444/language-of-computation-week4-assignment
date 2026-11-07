@@ -1,0 +1,5 @@
+# Store the source data, run log, and database byte-for-byte (no line-ending conversion).
+books.csv -text
+books-batch2.csv -text
+ingestion-log.json -text
+books.db binary
