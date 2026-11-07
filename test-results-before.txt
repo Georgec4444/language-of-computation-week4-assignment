@@ -1,0 +1,519 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.17, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\GC4Ne\workspace\language-of-computation\week4-assignment\.venv\Scripts\python.exe
+rootdir: C:\Users\GC4Ne\workspace\language-of-computation\week4-assignment
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 51 items
+
+tests/test_ingestion_runs.py::test_same_file_twice_creates_no_duplicate_books PASSED [  1%]
+tests/test_ingestion_runs.py::test_repeating_the_same_file_leaves_database_contents_identical PASSED [  3%]
+tests/test_ingestion_runs.py::test_fresh_starts_with_same_inputs_produce_identical_databases PASSED [  5%]
+tests/test_ingestion_runs.py::test_every_run_appends_to_the_log_without_overwriting PASSED [  7%]
+tests/test_ingestion_runs.py::test_counts_add_up_to_rows_read_for_the_three_run_sequence PASSED [  9%]
+tests/test_ingestion_runs.py::test_counts_add_up_when_all_four_outcomes_occur FAILED [ 11%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex01-both-valid-no-repair] FAILED [ 13%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex02-pad-and-sci-half-even-rebuild] FAILED [ 15%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex03-pad-8-digits-derive-isbn13] FAILED [ 17%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex04-remove-hyphens] FAILED [ 19%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex05-remove-spaces] FAILED [ 21%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex06-uppercase-final-x] FAILED [ 23%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex07-isbn13-in-isbn-column-moved] FAILED [ 25%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex08-derive-isbn10-from-978] FAILED [ 27%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex09-979-no-isbn10-no-warning] FAILED [ 29%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex10-sci-confirmed-by-isbn10] FAILED [ 31%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex11-sci-without-companion] FAILED [ 33%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex12-sci-ambiguous] FAILED [ 35%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex13-wrong-check-digit] FAILED [ 37%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex14-illegal-interior-letter] FAILED [ 39%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex15-extra-digit] FAILED [ 41%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex16-2940-product-code] FAILED [ 43%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex17-product-code-replaced-by-derivation] FAILED [ 45%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex18-narrow-dot-zero-exception] FAILED [ 47%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex19-unconfirmed-decimal] FAILED [ 49%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex20-both-blank-bossypants] FAILED [ 50%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex20-both-blank-untitled-manuscript] FAILED [ 52%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex21-valid-but-mismatched-pair] FAILED [ 54%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex23-two-valid-mismatched-isbns] FAILED [ 56%]
+tests/test_rules_examples.py::test_single_new_row_examples[ex35-no-0-to-X-change] FAILED [ 58%]
+tests/test_rules_examples.py::test_ex22_isbn_already_owned_by_another_book FAILED [ 60%]
+tests/test_rules_examples.py::test_ex24_exact_duplicate_row_in_one_file FAILED [ 62%]
+tests/test_rules_examples.py::test_ex25_previously_accepted_book_repeats_with_clean_formatting FAILED [ 64%]
+tests/test_rules_examples.py::test_ex26_blank_isbns_never_erase_accepted_isbns FAILED [ 66%]
+tests/test_rules_examples.py::test_ex27_approved_metadata_change_is_updated FAILED [ 68%]
+tests/test_rules_examples.py::test_ex28_same_book_id_with_different_identity_is_rejected[title-A Different Title] PASSED [ 70%]
+tests/test_rules_examples.py::test_ex28_same_book_id_with_different_identity_is_rejected[authors-A Different Author] PASSED [ 72%]
+tests/test_rules_examples.py::test_ex29_two_new_rows_share_a_goodreads_id FAILED [ 74%]
+tests/test_rules_examples.py::test_ex30_no_goodreads_id_and_no_isbn_still_loads FAILED [ 76%]
+tests/test_rules_examples.py::test_ex31_two_new_books_claim_the_same_isbn FAILED [ 78%]
+tests/test_rules_examples.py::test_ex32_different_validated_isbn_on_existing_book_is_rejected FAILED [ 80%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-id] PASSED [ 82%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[zero-id] PASSED [ 84%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[negative-id] PASSED [ 86%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[fractional-id] PASSED [ 88%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[nonnumeric-id] PASSED [ 90%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-title] PASSED [ 92%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[whitespace-title] PASSED [ 94%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-authors] PASSED [ 96%]
+tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[whitespace-authors] PASSED [ 98%]
+tests/test_rules_examples.py::test_ex34_safe_isbn_improvement_is_updated FAILED [100%]
+
+================================== FAILURES ===================================
+_______________ test_counts_add_up_when_all_four_outcomes_occur _______________
+tests\test_ingestion_runs.py:131: in test_counts_add_up_when_all_four_outcomes_occur
+    assert run["counts"] == outcomes(loaded=1, updated=1, skipped=2, rejected=2)
+E   AssertionError: assert {'loaded': 1,...'rejected': 2} == {'loaded': 1,...'rejected': 2}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'updated': 0} != {'updated': 1}
+E     {'skipped': 3} != {'skipped': 2}
+E     
+E     Full diff: (-: missing in left side, +: extra in left side)...
+E     
+E     ...Full output truncated, use '-vv' to show
+---------------------------- Captured stdout call -----------------------------
+first.csv: 2 rows read -> 2 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+second.csv: 6 rows read -> 1 loaded, 0 updated, 3 skipped, 2 rejected (3 rows need review). Run 2 appended to test-ingestion-log.json.
+___________ test_single_new_row_examples[ex01-both-valid-no-repair] ___________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______ test_single_new_row_examples[ex02-pad-and-sci-half-even-rebuild] _______
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_single_new_row_examples[ex03-pad-8-digits-derive-isbn13] ________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______________ test_single_new_row_examples[ex04-remove-hyphens] ______________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______________ test_single_new_row_examples[ex05-remove-spaces] _______________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+____________ test_single_new_row_examples[ex06-uppercase-final-x] _____________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_______ test_single_new_row_examples[ex07-isbn13-in-isbn-column-moved] ________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+__________ test_single_new_row_examples[ex08-derive-isbn10-from-978] __________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_________ test_single_new_row_examples[ex09-979-no-isbn10-no-warning] _________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_________ test_single_new_row_examples[ex10-sci-confirmed-by-isbn10] __________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+__________ test_single_new_row_examples[ex11-sci-without-companion] ___________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______________ test_single_new_row_examples[ex12-sci-ambiguous] _______________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+____________ test_single_new_row_examples[ex13-wrong-check-digit] _____________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_________ test_single_new_row_examples[ex14-illegal-interior-letter] __________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_______________ test_single_new_row_examples[ex15-extra-digit] ________________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+____________ test_single_new_row_examples[ex16-2940-product-code] _____________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+___ test_single_new_row_examples[ex17-product-code-replaced-by-derivation] ____
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_single_new_row_examples[ex18-narrow-dot-zero-exception] _________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+___________ test_single_new_row_examples[ex19-unconfirmed-decimal] ____________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+__________ test_single_new_row_examples[ex20-both-blank-bossypants] ___________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______ test_single_new_row_examples[ex20-both-blank-untitled-manuscript] ______
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_single_new_row_examples[ex21-valid-but-mismatched-pair] _________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_single_new_row_examples[ex23-two-valid-mismatched-isbns] ________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_____________ test_single_new_row_examples[ex35-no-0-to-X-change] _____________
+tests\test_rules_examples.py:118: in test_single_new_row_examples
+    assert cleaned(book) == (exp10, exp13)
+           ^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+________________ test_ex22_isbn_already_owned_by_another_book _________________
+tests\test_rules_examples.py:133: in test_ex22_isbn_already_owned_by_another_book
+    assert cleaned(angels_before) == ("1416524797", "9781416524793")
+           ^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+__________________ test_ex24_exact_duplicate_row_in_one_file __________________
+tests\test_rules_examples.py:154: in test_ex24_exact_duplicate_row_in_one_file
+    assert cleaned(workspace.book(2401)) == ("1528746309", "9781528746304")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 2 rows read -> 1 loaded, 0 updated, 1 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______ test_ex25_previously_accepted_book_repeats_with_clean_formatting _______
+tests\test_rules_examples.py:167: in test_ex25_previously_accepted_book_repeats_with_clean_formatting
+    assert cleaned(before) == ("0439139600", "9780439139601")
+           ^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______________ test_ex26_blank_isbns_never_erase_accepted_isbns _______________
+tests\test_rules_examples.py:188: in test_ex26_blank_isbns_never_erase_accepted_isbns
+    assert cleaned(before)[0] == "0545010225"
+           ^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+________________ test_ex27_approved_metadata_change_is_updated ________________
+tests\test_rules_examples.py:207: in test_ex27_approved_metadata_change_is_updated
+    assert run["counts"] == outcomes(updated=1)
+E   AssertionError: assert {'loaded': 0,...'rejected': 0} == {'loaded': 0,...'rejected': 0}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'updated': 0} != {'updated': 1}
+E     {'skipped': 1} != {'skipped': 0}
+E     
+E     Full diff: (-: missing in left side, +: extra in left side)...
+E     
+E     ...Full output truncated, use '-vv' to show
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+second.csv: 1 rows read -> 0 loaded, 0 updated, 1 skipped, 0 rejected (1 rows need review). Run 2 appended to test-ingestion-log.json.
+_________________ test_ex29_two_new_rows_share_a_goodreads_id _________________
+tests\test_rules_examples.py:239: in test_ex29_two_new_rows_share_a_goodreads_id
+    assert run["counts"] == outcomes(rejected=2)
+E   AssertionError: assert {'loaded': 2,...'rejected': 0} == {'loaded': 0,...'rejected': 2}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'loaded': 2} != {'loaded': 0}
+E     {'rejected': 0} != {'rejected': 2}
+E     
+E     Full diff: (-: missing in left side, +: extra in left side)...
+E     
+E     ...Full output truncated, use '-vv' to show
+---------------------------- Captured stdout call -----------------------------
+input.csv: 2 rows read -> 2 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+______________ test_ex30_no_goodreads_id_and_no_isbn_still_loads ______________
+tests\test_rules_examples.py:255: in test_ex30_no_goodreads_id_and_no_isbn_still_loads
+    assert cleaned(workspace.book(3001)) == (None, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+_________________ test_ex31_two_new_books_claim_the_same_isbn _________________
+tests\test_rules_examples.py:270: in test_ex31_two_new_books_claim_the_same_isbn
+    assert cleaned(workspace.book(3101)) == (None, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+input.csv: 2 rows read -> 2 loaded, 0 updated, 0 skipped, 0 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_______ test_ex32_different_validated_isbn_on_existing_book_is_rejected _______
+tests\test_rules_examples.py:286: in test_ex32_different_validated_isbn_on_existing_book_is_rejected
+    assert run["counts"] == outcomes(rejected=1)
+E   AssertionError: assert {'loaded': 0,...'rejected': 0} == {'loaded': 0,...'rejected': 1}
+E     
+E     Omitting 2 identical items, use -vv to show
+E     Differing items:
+E     {'skipped': 1} != {'skipped': 0}
+E     {'rejected': 0} != {'rejected': 1}
+E     
+E     Full diff: (-: missing in left side, +: extra in left side)...
+E     
+E     ...Full output truncated, use '-vv' to show
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+second.csv: 1 rows read -> 0 loaded, 0 updated, 1 skipped, 0 rejected (1 rows need review). Run 2 appended to test-ingestion-log.json.
+_________________ test_ex34_safe_isbn_improvement_is_updated __________________
+tests\test_rules_examples.py:317: in test_ex34_safe_isbn_improvement_is_updated
+    assert cleaned(workspace.book(3401)) == (None, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\conftest.py:310: in cleaned
+    pytest.fail(f"books table has no {missing} column(s); R30 requires cleaned ISBNs stored "
+E   Failed: books table has no ['isbn10_clean', 'isbn13_clean'] column(s); R30 requires cleaned ISBNs stored separately from the raw supplier isbn/isbn13 text
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+=================================== PASSES ====================================
+_______________ test_same_file_twice_creates_no_duplicate_books _______________
+---------------------------- Captured stdout call -----------------------------
+books.csv: 10000 rows read -> 10000 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 0 loaded, 0 updated, 10000 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+_______ test_repeating_the_same_file_leaves_database_contents_identical _______
+---------------------------- Captured stdout call -----------------------------
+books.csv: 10000 rows read -> 10000 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 0 loaded, 0 updated, 10000 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+_______ test_fresh_starts_with_same_inputs_produce_identical_databases ________
+---------------------------- Captured stdout call -----------------------------
+books.csv: 10000 rows read -> 10000 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 0 loaded, 0 updated, 10000 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+books-batch2.csv: 31 rows read -> 14 loaded, 0 updated, 17 skipped, 0 rejected (6 rows need review). Run 3 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 10000 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 0 loaded, 0 updated, 10000 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+books-batch2.csv: 31 rows read -> 14 loaded, 0 updated, 17 skipped, 0 rejected (6 rows need review). Run 3 appended to test-ingestion-log.json.
+____________ test_every_run_appends_to_the_log_without_overwriting ____________
+---------------------------- Captured stdout call -----------------------------
+good.csv: 2 rows read -> 2 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+good.csv: 2 rows read -> 0 loaded, 0 updated, 2 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+good.csv: 2 rows read -> 0 loaded, 0 updated, 2 skipped, 0 rejected (0 rows need review). Run 4 appended to test-ingestion-log.json.
+---------------------------- Captured stderr call -----------------------------
+ERROR: could not read C:\Users\GC4Ne\AppData\Local\Temp\ingest-test-w4vmku3b\does-not-exist.csv: [Errno 2] No such file or directory: 'C:\\Users\\GC4Ne\\AppData\\Local\\Temp\\ingest-test-w4vmku3b\\does-not-exist.csv'. Run recorded in test-ingestion-log.json.
+_________ test_counts_add_up_to_rows_read_for_the_three_run_sequence __________
+---------------------------- Captured stdout call -----------------------------
+books.csv: 10000 rows read -> 10000 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+books.csv: 10000 rows read -> 0 loaded, 0 updated, 10000 skipped, 0 rejected (0 rows need review). Run 2 appended to test-ingestion-log.json.
+books-batch2.csv: 31 rows read -> 14 loaded, 0 updated, 17 skipped, 0 rejected (6 rows need review). Run 3 appended to test-ingestion-log.json.
+_ test_ex28_same_book_id_with_different_identity_is_rejected[title-A Different Title] _
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+second.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 2 appended to test-ingestion-log.json.
+_ test_ex28_same_book_id_with_different_identity_is_rejected[authors-A Different Author] _
+---------------------------- Captured stdout call -----------------------------
+first.csv: 1 rows read -> 1 loaded, 0 updated, 0 skipped, 0 rejected (0 rows need review). Run 1 appended to test-ingestion-log.json.
+second.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 2 appended to test-ingestion-log.json.
+__________ test_ex33_missing_required_identity_is_rejected[blank-id] __________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+__________ test_ex33_missing_required_identity_is_rejected[zero-id] ___________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_ex33_missing_required_identity_is_rejected[negative-id] _________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_______ test_ex33_missing_required_identity_is_rejected[fractional-id] ________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_______ test_ex33_missing_required_identity_is_rejected[nonnumeric-id] ________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+________ test_ex33_missing_required_identity_is_rejected[blank-title] _________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+______ test_ex33_missing_required_identity_is_rejected[whitespace-title] ______
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_______ test_ex33_missing_required_identity_is_rejected[blank-authors] ________
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+_____ test_ex33_missing_required_identity_is_rejected[whitespace-authors] _____
+---------------------------- Captured stdout call -----------------------------
+input.csv: 1 rows read -> 0 loaded, 0 updated, 0 skipped, 1 rejected (1 rows need review). Run 1 appended to test-ingestion-log.json.
+=========================== short test summary info ===========================
+PASSED tests/test_ingestion_runs.py::test_same_file_twice_creates_no_duplicate_books
+PASSED tests/test_ingestion_runs.py::test_repeating_the_same_file_leaves_database_contents_identical
+PASSED tests/test_ingestion_runs.py::test_fresh_starts_with_same_inputs_produce_identical_databases
+PASSED tests/test_ingestion_runs.py::test_every_run_appends_to_the_log_without_overwriting
+PASSED tests/test_ingestion_runs.py::test_counts_add_up_to_rows_read_for_the_three_run_sequence
+PASSED tests/test_rules_examples.py::test_ex28_same_book_id_with_different_identity_is_rejected[title-A Different Title]
+PASSED tests/test_rules_examples.py::test_ex28_same_book_id_with_different_identity_is_rejected[authors-A Different Author]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-id]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[zero-id]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[negative-id]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[fractional-id]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[nonnumeric-id]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-title]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[whitespace-title]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[blank-authors]
+PASSED tests/test_rules_examples.py::test_ex33_missing_required_identity_is_rejected[whitespace-authors]
+FAILED tests/test_ingestion_runs.py::test_counts_add_up_when_all_four_outcomes_occur
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex01-both-valid-no-repair]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex02-pad-and-sci-half-even-rebuild]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex03-pad-8-digits-derive-isbn13]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex04-remove-hyphens]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex05-remove-spaces]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex06-uppercase-final-x]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex07-isbn13-in-isbn-column-moved]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex08-derive-isbn10-from-978]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex09-979-no-isbn10-no-warning]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex10-sci-confirmed-by-isbn10]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex11-sci-without-companion]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex12-sci-ambiguous]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex13-wrong-check-digit]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex14-illegal-interior-letter]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex15-extra-digit]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex16-2940-product-code]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex17-product-code-replaced-by-derivation]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex18-narrow-dot-zero-exception]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex19-unconfirmed-decimal]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex20-both-blank-bossypants]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex20-both-blank-untitled-manuscript]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex21-valid-but-mismatched-pair]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex23-two-valid-mismatched-isbns]
+FAILED tests/test_rules_examples.py::test_single_new_row_examples[ex35-no-0-to-X-change]
+FAILED tests/test_rules_examples.py::test_ex22_isbn_already_owned_by_another_book
+FAILED tests/test_rules_examples.py::test_ex24_exact_duplicate_row_in_one_file
+FAILED tests/test_rules_examples.py::test_ex25_previously_accepted_book_repeats_with_clean_formatting
+FAILED tests/test_rules_examples.py::test_ex26_blank_isbns_never_erase_accepted_isbns
+FAILED tests/test_rules_examples.py::test_ex27_approved_metadata_change_is_updated
+FAILED tests/test_rules_examples.py::test_ex29_two_new_rows_share_a_goodreads_id
+FAILED tests/test_rules_examples.py::test_ex30_no_goodreads_id_and_no_isbn_still_loads
+FAILED tests/test_rules_examples.py::test_ex31_two_new_books_claim_the_same_isbn
+FAILED tests/test_rules_examples.py::test_ex32_different_validated_isbn_on_existing_book_is_rejected
+FAILED tests/test_rules_examples.py::test_ex34_safe_isbn_improvement_is_updated
+======================== 35 failed, 16 passed in 9.10s ========================
