@@ -1,7 +1,7 @@
 [
   {
     "run_number": 1,
-    "timestamp": "2026-11-08T12:56:14-06:00",
+    "timestamp": "2026-11-08T17:23:58-06:00",
     "source_file": "books.csv",
     "source_path": "C:\\Users\\GC4Ne\\workspace\\language-of-computation\\week4-assignment\\books.csv",
     "source_sha256": "4d21d0e0433128657c752e3a3d0405ac0ec11675d6c70c64cb0abf4ab1acb76a",
@@ -15,11 +15,10 @@
       "rejected": 0
     },
     "event_totals": {
-      "correction": 15848,
-      "warning": 922,
-      "review": 1
+      "correction": 15849,
+      "warning": 922
     },
-    "rows_needing_review": 1,
+    "rows_needing_review": 0,
     "rows": [
       {
         "line": 2,
@@ -35321,16 +35320,16 @@
           },
           {
             "type": "warning",
-            "rule": "R16/R19",
+            "rule": "R16/R18",
             "field": "isbn13",
-            "message": "rounded scientific-notation value beginning 979 is ambiguous; missing digits are not assumed; stored NULL",
+            "message": "prefix 9790 is reserved for ISMN (music), not ISBN; stored NULL",
             "original": "9.79000767239e+12"
           },
           {
-            "type": "review",
+            "type": "warning",
             "rule": "R19",
             "field": "isbn13",
-            "message": "supplied 979/9790 value contradicts the 978 ISBN-13 9780006280569 that ISBN-10 0006280560 would give; ISBN-13 not derived; stored NULL; review needed",
+            "message": "rounded scientific-notation value cannot be confirmed (R16); ISBN-13 not derived",
             "original": "9.79000767239e+12"
           }
         ],
@@ -35344,7 +35343,7 @@
           "isbn": "0006280560",
           "isbn13": null
         },
-        "needs_review": true
+        "needs_review": false
       },
       {
         "line": 1108,
@@ -256049,11 +256048,12 @@
             "result": "0195170342"
           },
           {
-            "type": "warning",
-            "rule": "R17/R18",
+            "type": "correction",
+            "rule": "R17",
             "field": "isbn13",
-            "message": "decimal-looking value is not an ISBN; not stripped; stored NULL",
-            "original": "195170342.0"
+            "message": "confirmed: removing .0 gives (after the R12 repairs) the same validated ISBN-10 0195170342 as the isbn field; derived ISBN-13",
+            "original": "195170342.0",
+            "result": "9780195170344"
           }
         ],
         "raw_isbns": {
@@ -256064,7 +256064,7 @@
         "reason": "new book inserted",
         "stored": {
           "isbn": "0195170342",
-          "isbn13": null
+          "isbn13": "9780195170344"
         },
         "needs_review": false
       },
@@ -312528,7 +312528,7 @@
   },
   {
     "run_number": 2,
-    "timestamp": "2026-11-08T12:56:55-06:00",
+    "timestamp": "2026-11-08T17:24:41-06:00",
     "source_file": "books.csv",
     "source_path": "C:\\Users\\GC4Ne\\workspace\\language-of-computation\\week4-assignment\\books.csv",
     "source_sha256": "4d21d0e0433128657c752e3a3d0405ac0ec11675d6c70c64cb0abf4ab1acb76a",
@@ -451496,7 +451496,7 @@
         },
         "stored": {
           "isbn": "0195170342",
-          "isbn13": null
+          "isbn13": "9780195170344"
         },
         "outcome": "skipped",
         "reason": "already exists: book_id 8174 has no permitted change",
@@ -482548,7 +482548,7 @@
   },
   {
     "run_number": 3,
-    "timestamp": "2026-11-08T12:57:37-06:00",
+    "timestamp": "2026-11-08T17:25:13-06:00",
     "source_file": "books-batch2.csv",
     "source_path": "C:\\Users\\GC4Ne\\workspace\\language-of-computation\\week4-assignment\\books-batch2.csv",
     "source_sha256": "bf884855034eacee58393b9bf6137f638cbc663b0fd7394877dad8a23eb53df5",

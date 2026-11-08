@@ -51,7 +51,7 @@ PROTECTED_FOR_REVIEW = [
 MAX_SQLITE_INT = 2**63 - 1
 
 SCI_RE = re.compile(r"(\d)(?:\.(\d+))?[eE]\+?(\d+)")
-DOT_ZERO_ISBN10_RE = re.compile(r"(\d{9}[\dXx])\.0")
+DOT_ZERO_RE = re.compile(r"(.+)\.0")  # R17: a value followed by exactly ".0"
 
 
 class SchemaError(Exception):
@@ -194,9 +194,9 @@ def classify_isbn13_field(raw):
     info (for invalid values) tells R19 whether a companion ISBN-10 may replace the value:
       "rounded"  rounded scientific notation that is not an ISBN-13 candidate (safeguard 1)
       "bad978"   a 13-digit 978 candidate with a bad checksum (safeguard 2)
-      "bad979"   a 13-digit value beginning 979 that is not a valid ISBN-13 (bad checksum or 9790
-                 ISMN), including exact scientific notation for such a value, or rounded scientific
-                 notation whose shown digits begin 979 (safeguard 5, C3)
+      "bad979"   a 13-digit 979 value (not 9790) that fails its checksum, written plainly or as exact
+                 scientific notation (C1, C3). A 9790 ISMN value is a product code (info None), and a
+                 rounded 9790 value is "rounded" (C1, C3).
       "decimal"  a decimal-looking value; R17 alone decides those, so R19 does not apply
       None       any other unusable value
     """
@@ -208,15 +208,11 @@ def classify_isbn13_field(raw):
         digits = m.group(1) + (m.group(2) or "")
         exponent = int(m.group(3))
         rounded = len(digits) < exponent + 1
-        if exponent == 12 and len(digits) <= 13 and digits.startswith("979") \
-                and (rounded or not isbn13_valid(digits)):
-            # R19 safeguard 5 (C3): scientific notation must not bypass the 979/9790 safeguard.
-            if rounded:
-                why = ("rounded scientific-notation value beginning 979 is ambiguous; "
-                       "missing digits are not assumed")
-            else:
-                why = f"{describe_13_digit_problem(digits)[1]} (exact scientific notation for {digits})"
-            return "invalid", None, [event("warning", "R16/R19", "isbn13", f"{why}; stored NULL", raw)], \
+        if exponent == 12 and len(digits) == 13 and digits.startswith("979") \
+                and not digits.startswith("9790") and not isbn13_valid(digits):
+            # C1, C3: exact notation for an invalid 13-digit 979 value is that value.
+            why = f"{describe_13_digit_problem(digits)[1]} (exact scientific notation for {digits})"
+            return "invalid", None, [event("warning", "R11", "isbn13", f"{why}; stored NULL", raw)], \
                 ("bad979", digits)
         if exponent == 12 and len(digits) <= 13 and digits.startswith(("978", "979")) \
                 and not digits.startswith("9790"):
@@ -227,10 +223,14 @@ def classify_isbn13_field(raw):
             why = describe_13_digit_problem(digits.ljust(13, "0"))[1]
         return "invalid", None, [event("warning", "R16/R18", "isbn13", f"{why}; stored NULL", raw)], \
             ("rounded" if rounded else None)
-    dot0 = DOT_ZERO_ISBN10_RE.fullmatch(stripped)
+    dot0 = DOT_ZERO_RE.fullmatch(stripped)
     if dot0:
-        # R17: only usable if it matches the row's validated ISBN-10; decided in process_isbns.
-        return "dot0", dot0.group(1).upper(), [], None
+        # R17, C2: apply the R12 repairs (including leading-zero padding) to the digits before
+        # ".0". Only usable if the result matches the row's validated ISBN-10; decided in
+        # process_isbns.
+        kind, value, _ = classify_isbn10_field(dot0.group(1))
+        if kind == "valid10":
+            return "dot0", value, [], None
     if "." in stripped:
         return "invalid", None, [event(
             "warning", "R17/R18", "isbn13", "decimal-looking value is not an ISBN; not stripped; stored NULL",
@@ -249,7 +249,12 @@ def classify_isbn13_field(raw):
         if isbn13_valid(text):
             return "valid13", text, events, None
         rule, why = describe_13_digit_problem(text)
-        info = "bad978" if text.startswith("978") else "bad979" if text.startswith("979") else None
+        if text.startswith("978"):
+            info = "bad978"
+        elif text.startswith("979") and not text.startswith("9790"):
+            info = "bad979"  # C3: a 9790 ISMN is a product code instead
+        else:
+            info = None
         return "invalid", None, events + [event("warning", rule, "isbn13", f"{why}; stored NULL", raw)], \
             (info, text) if info else None
     if isbn10_valid(text):
@@ -324,8 +329,8 @@ def process_isbns(raw10, raw13):
             final13 = isbn10_to_13(final10)
             derived.add("isbn13")
             events.append(event("correction", "R17", "isbn13",
-                                f"confirmed: removing .0 gives the same validated ISBN-10 {final10} as the isbn "
-                                f"field; derived ISBN-13", raw13, final13))
+                                f"confirmed: removing .0 gives (after the R12 repairs) the same validated ISBN-10 "
+                                f"{final10} as the isbn field; derived ISBN-13", raw13, final13))
         else:
             events.append(event("warning", "R17/R18", "isbn13",
                                 "decimal-looking value is not confirmed by the same validated ISBN-10 in this row; "
@@ -353,9 +358,9 @@ def process_isbns(raw10, raw13):
     if k13 == "invalid" and moved13_from_isbn is None and final10 is not None and final13 is None:
         candidate = isbn10_to_13(final10)
         if isinstance(info13, tuple) and info13[0] == "bad979":
-            # R19 safeguard 5 (C3): a 979/9790 value can never agree with a 978 derivation.
-            events.append(event("review", "R19", "isbn13",
-                                f"supplied 979/9790 value contradicts the 978 ISBN-13 {candidate} that ISBN-10 "
+            # C3: an invalid 979 value can never agree with a 978 derivation.
+            events.append(event("review", "C3", "isbn13",
+                                f"invalid 979 value contradicts the 978 ISBN-13 {candidate} that ISBN-10 "
                                 f"{final10} would give; ISBN-13 not derived; stored NULL; review needed",
                                 raw13))
         elif info13 == "rounded":
@@ -639,6 +644,15 @@ def process_row(conn, index, row, line, seen_rows, plan):
     if duplicate_of is not None:  # R23
         reason = f"exact duplicate in input (same as line {duplicate_of})"
         entry.update(outcome="skipped", reason=reason, events=[event("duplicate", "R23", "row", reason)])
+        return entry
+
+    # C6: same book_id earlier in this file with values that normalize to the same result.
+    normalized_key = ("normalized", normalized_form(row))
+    normalized_of = seen_rows.get(normalized_key)
+    seen_rows.setdefault(normalized_key, line)
+    if normalized_of is not None:
+        reason = f"normalized duplicate in input (same as line {normalized_of} after normalization)"
+        entry.update(outcome="skipped", reason=reason, events=[event("duplicate", "C6", "row", reason)])
         return entry
 
     if line in rejections:
